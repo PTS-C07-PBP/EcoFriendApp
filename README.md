@@ -40,31 +40,37 @@ Aktor pengguna aplikasi:
 1. News about Current Environmental Issues 
 
     *Penjelasan singkat:* Bagian yang menampilkan berbagai informasi terkini yang sedang terjadi berkaitan dengan kondisi atau permasalahan yang sedang terjadi lingkungan kita. Halaman ini akan menjadi halaman utama yang menampilkan berbagai informasi dari lingkungan sekitar kita untuk meningkatkan daya tarik dan menambah wawasan user yang mengakses website.
+    
     *Dikerjakan oleh:* Airel
 
 2. Carbon Footprint Tracker (Transportasi)  
 
     *Penjelasan singkat:* Tempat yang akan digunakan untuk menginput jarak yang ditempuh dengan berbagai sarana, seperti mengendarai keadaan pribadi. Halaman ini kemudian akan menampilkan history hasil setiap kali user melakukan input yang hasil data inputnya akan digunakan oleh modul lain yang berkaitan.
+    
     *Dikerjakan oleh:* Rahma
 
 3. Ranking 
 
     *Penjelasan singkat:* Menampilkan poin-poin yang sudah didapatkan oleh user melalui perhitungan jejak karbon setiap kali user memberikan input pada carbon footprint tracker. Tujuannya adalah untuk memberikan reward dan juga motivasi bagi setiap user agar mereka mau untuk menjadi yang terbaik dengan mendapatkan poin sebanyak-banyaknya. Semakin sedikit jejak karbon yang mereka tinggalkan, maka semakin tinggi poin mereka karena sudah berpartisipasi mengurangi jejak karbon.
+    
     *Dikerjakan oleh:* Farel
 
 4. Calories burned (Person health condition) 
 
     *Penjelasan singkat:* Menampilkan jumlah kalori terbakar berdasarkan jarak yang diinput pada fitur tracker jika user berjalan kaki. Fitur ini juga menampilkan dan menginput motivasi yang dapat berasal dari user lainnya. Fitur ini bertujuan untuk memberikan motivasi bagi para user yang sudah ikut berpartisipasi mengurangi jejak karbon dengan berjalan kaki.
+    
     *Dikerjakan oleh:* Valencius
 
 5. User 
 
     *Penjelasan singkat:* Bagian yang untuk menginput data untuk mendaftar sebagai pengguna dan kemudian akan menampilkan data diri yang tadi sudah dimasukkan.
+    
     *Dikerjakan oleh:* Kaylee
 
 6. App Review dan nambahin review kita 
 
     *Penjelasan singkat:* Menampilkan review app dari para pengguna. Pada bagian ini, pengguna juga dapat memberikan review langsung lewat app.
+    
     *Dikerjakan oleh:* Syifa
     
 ***
