@@ -42,6 +42,8 @@ Aktor pengguna aplikasi:
     *Penjelasan singkat:* Bagian yang menampilkan berbagai informasi terkini yang sedang terjadi berkaitan dengan kondisi atau permasalahan yang sedang terjadi lingkungan kita. Halaman ini akan menjadi halaman utama yang menampilkan berbagai informasi dari lingkungan sekitar kita untuk meningkatkan daya tarik dan menambah wawasan user yang mengakses website.
     
     *Dikerjakan oleh:* Airel
+    
+    *Alur pengintegrasian web service:* Modul ini akan menampilkan artikel tentang isu lingkungan yang didapat dari halaman web UN News. Artikel tersebut ditampilkan dalam sebuah kartu yang berisi gambar, judul, tanggal pembuatan, wilayah yang berkaitan, dan deskripsi singkat. Kemudian ketika pengguna menekan kartu, pengguna akan dialihkan ke halaman web artikel tersebut. Selain itu, di modul ini juga terdapat halaman untuk membuat artikel. Di halaman tersebut terdapat input berupa judul, dropdown wilayah, dan deskripsi dari artikel tersebut. Cara implementasi dari fitur-fitur tersebut adalah dengan memanfaatkan API (Application Programming Interface) dalam kode back-end Django yang sudah ada berupa fungsi yang mengembalikan data artikel ketika melakukan GET dan menambahkan data artikel ketika melakukan POST.
 
 2. Carbon Footprint Tracker (Transportasi)  
 
@@ -72,11 +74,3 @@ Aktor pengguna aplikasi:
     *Penjelasan singkat:* Menampilkan review app dari para pengguna. Pada bagian ini, pengguna juga dapat memberikan review langsung lewat app.
     
     *Dikerjakan oleh:* Syifa
-    
-***
-    
-**Alur pengintegrasian dengan** *web service*
-
-1. Mengimplementasi autentikasi dari Django *web service* ke Flutter menggunakan [pbp_django_auth](https://pub.dev/packages/pbp_django_auth)
-2. Melakukan `GET` atau mengambil data JSON dari halaman web EcoFriend jika membutuhkan data.
-3. Melakukan `POST` atau mengirim data JSON ke halaman web EcoFriend untuk menampilkan data.
