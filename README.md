@@ -78,3 +78,6 @@ Aktor pengguna aplikasi:
     *Penjelasan singkat:* Menampilkan review app dari para pengguna. Pada bagian ini, pengguna juga dapat memberikan review langsung lewat app.
     
     *Dikerjakan oleh:* Syifa
+    
+    *Alur pengintergrasian web service*: Modul Review akan menampilkan daftar review yang diberikan oleh pengguna terhadap aplikasi EcoFriend. Daftar review terebut ditampilkan dalam bentuk kartu-kartu. Setiap kartu akan menampilkan username, tanggal, serta judul dan review yang dimasukkan secara asinkronus. Untuk mengimplementasikan fitur tersebut, maka akan digunakan API (Application Programming Interface) sederhana di kode back-end Djando bagian Review. API akan mengembalikan data dalam bentuk JSON melalui request HMTL metode GET dan POST ke url yang tepat. Akan ada sebuah fungsi asinkronis yang diimplementasikan untuk dapat melakukan request tersebut untuk mengambil data yang dibutuhkan.
+    
