@@ -51,6 +51,8 @@ Aktor pengguna aplikasi:
     
     *Dikerjakan oleh:* Rahma
 
+    *Alur pengintegrasian web service:* Modul ini akan menampilkan *history* perhitungan jejak karbon pengguna sesuai yang diinput. Tampilan data akan disajikan dengan *cards* yang berisi detail serta keterangan waktu. Terdapat juga kolom untuk menambahkan *history* pengguna. Implementasinya akan menggunakan API *backend* Django dari aplikasi website yang sudah dibuat sebelumnya. Pengaksesan data JSON dilakukan melalui request HTML dengan method GET dan POST yang akan memanfaatkan library `http` dan  fungsi asinkronus untuk mengambil data terkait.
+
 3. Ranking 
 
     *Penjelasan singkat:* Menampilkan poin-poin yang sudah didapatkan oleh user melalui perhitungan jejak karbon setiap kali user memberikan input pada carbon footprint tracker. Tujuannya adalah untuk memberikan reward dan juga motivasi bagi setiap user agar mereka mau untuk menjadi yang terbaik dengan mendapatkan poin sebanyak-banyaknya. Semakin sedikit jejak karbon yang mereka tinggalkan, maka semakin tinggi poin mereka karena sudah berpartisipasi mengurangi jejak karbon.
