@@ -70,6 +70,8 @@ Aktor pengguna aplikasi:
     *Penjelasan singkat:* Bagian yang untuk menginput data untuk mendaftar sebagai pengguna dan kemudian akan menampilkan data diri yang tadi sudah dimasukkan.
     
     *Dikerjakan oleh:* Kaylee
+    
+    *Alur pengintergrasian web service*: Modul User akan menampilkan data diri pengguna seperti username, nama dan email dari user yang didapatkan saat melakukan registrasi akun. Selain itu, akan ditambahkan agar dapat menampilkan poinnya saat ini dan user juga bisa membuat notes di halaman profilenya yang akan ditampilkan berbentuk *card*. Implementasi dari fitur tersebut akan memanfaatkan API dalam *backend* Django yang sudah ada dari aplikasi yang sebelumnya sudah dibuat. Data yang telah ada dapat diambil menggunakan method POST dan GET dan akan dimasukkan kembali menggunakan library `http` hingga akhirnya dapat ditampilkan dalam aplikasi yang dibuat.
 
 6. App Review dan nambahin review kita 
 
