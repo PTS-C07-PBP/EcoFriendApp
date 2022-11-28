@@ -67,7 +67,7 @@ Aktor pengguna aplikasi:
 
 5. User 
 
-    *Penjelasan singkat:* Bagian yang untuk menginput data untuk mendaftar sebagai pengguna dan kemudian akan menampilkan data diri yang tadi sudah dimasukkan.
+    *Penjelasan singkat:* Bagian yang untuk menginput data untuk mendaftar sebagai pengguna dan kemudian akan menampilkan data diri yang tadi sudah dimasukkan. User juga dapat membuat notes singkat yang berfungsi untuk *track* harinya.
     
     *Dikerjakan oleh:* Kaylee
     
