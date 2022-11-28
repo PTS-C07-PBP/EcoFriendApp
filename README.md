@@ -62,6 +62,8 @@ Aktor pengguna aplikasi:
     *Penjelasan singkat:* Menampilkan jumlah kalori terbakar berdasarkan jarak yang diinput pada fitur tracker jika user berjalan kaki. Fitur ini juga menampilkan dan menginput motivasi yang dapat berasal dari user lainnya. Fitur ini bertujuan untuk memberikan motivasi bagi para user yang sudah ikut berpartisipasi mengurangi jejak karbon dengan berjalan kaki.
     
     *Dikerjakan oleh:* Valencius
+    
+    Pada bagian modul ini akan ditampilkan sebuah representasi data yang menunjukkan jumlah kalori yang terbakar. Jumlah kalori terbakar ini dihitung dengan mengambil data yang didapatkan dari modul Carbon Footprint Tracker. Data yang diambil hanya data jarak yang ditempuh dengan berjalan kaki. Tampilan data akan disajikan dengan sebuah grafik batang disertai dengan tabel detail kalori yang terbakar dengan aktivitas berjalan kaki yang sudah dilakukan. Di bagian bawah dari tabel dan grafik yang sudah tersaji akan diberikan kolom untuk menambahkan motivasi yang kemudian dapat dilihat oleh seluruh pengguna lainnya. Untuk mengimplementasikan fitur-fitur yang sudah disebutkan di atas, maka kita akan menggunakan API (Application Programming Interface) sederhana di kode back-end Djando dari aplikasi website yang sudah kita buat sebelumnya. Kemudian kita dapat mengakses data JSON melalui request HTML dengan method GET dan POST menuju route url yang tepat. Untuk melakukannya maka akan digunakan library http yang sudah ada di dalam Dart dan membuat fungsi asinkronus untuk melakukan request HTML untuk mendapatkan data-data yang dibutuhkan
 
 5. User 
 
