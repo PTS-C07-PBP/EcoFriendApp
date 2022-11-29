@@ -59,7 +59,7 @@ Aktor pengguna aplikasi:
     
     *Dikerjakan oleh:* Farel
     
-    *Alur pengintegrasian web service: Modul ini akan menampilkan peringkat perhitungan jarak yang ditempuh pengguna dibagi dengan jejak karbon pengguna sesuai yang diinput. Tampilan data akan disajikan dengan tabel yang berisi urutan dan data jarak serta jejak karbon. Terdapat juga kolom untuk menambahkan komentar pengguna yang dapat dilihat oleh pengguna lainnya. Pengaksesan data JSON dapat dilakukan melalui request HTML dengan method GET dan POST menuju route url yang tepat. Prosesnya akan menggunakan library http yang sudah ada di dalam Dart dan membuat fungsi asinkronus untuk melakukan request HTML untuk mendapatkan data-data yang dibutuhkan.
+    Alur pengintegrasian web service: Modul ini akan menampilkan peringkat perhitungan jarak yang ditempuh pengguna dibagi dengan jejak karbon pengguna sesuai yang diinput. Tampilan data akan disajikan dengan tabel yang berisi urutan dan data jarak serta jejak karbon. Terdapat juga kolom untuk menambahkan komentar pengguna yang dapat dilihat oleh pengguna lainnya. Pengaksesan data JSON dapat dilakukan melalui request HTML dengan method GET dan POST menuju route url yang tepat. Prosesnya akan menggunakan library http yang sudah ada di dalam Dart dan membuat fungsi asinkronus untuk melakukan request HTML untuk mendapatkan data-data yang dibutuhkan.
 
 
 4. Calories burned (Person health condition) 
