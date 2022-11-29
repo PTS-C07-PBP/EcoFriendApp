@@ -58,6 +58,9 @@ Aktor pengguna aplikasi:
     *Penjelasan singkat:* Menampilkan poin-poin yang sudah didapatkan oleh user melalui perhitungan jejak karbon setiap kali user memberikan input pada carbon footprint tracker. Tujuannya adalah untuk memberikan reward dan juga motivasi bagi setiap user agar mereka mau untuk menjadi yang terbaik dengan mendapatkan poin sebanyak-banyaknya. Semakin sedikit jejak karbon yang mereka tinggalkan, maka semakin tinggi poin mereka karena sudah berpartisipasi mengurangi jejak karbon.
     
     *Dikerjakan oleh:* Farel
+    
+    *Alur pengintegrasian web service: Modul ini akan menampilkan peringkat perhitungan jarak yang ditempuh pengguna dibagi dengan jejak karbon pengguna sesuai yang diinput. Tampilan data akan disajikan dengan tabel yang berisi urutan dan data jarak serta jejak karbon. Terdapat juga kolom untuk menambahkan komentar pengguna yang dapat dilihat oleh pengguna lainnya. Pengaksesan data JSON dapat dilakukan melalui request HTML dengan method GET dan POST menuju route url yang tepat. Prosesnya akan menggunakan library http yang sudah ada di dalam Dart dan membuat fungsi asinkronus untuk melakukan request HTML untuk mendapatkan data-data yang dibutuhkan.
+
 
 4. Calories burned (Person health condition) 
 
