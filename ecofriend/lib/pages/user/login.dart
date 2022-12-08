@@ -154,40 +154,6 @@ class _LoginPageState extends State<LoginPage> {
                         ));
                           Navigator.pushNamed(context, '/');
                       }
-                      // else {
-                      //   // Code here will run if the login failed (wrong username/password).
-                      //   showDialog(context: context, 
-                      //   builder: (context) {
-                      //     return Dialog (
-                      //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                      //       elevation: 10,
-                      //       child: Container(
-                      //         child: ListView(
-                      //           padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                      //           shrinkWrap: true,
-                      //           children: <Widget>[
-                      //             const Center(
-                      //                 child: Text(
-                      //                     'Username or Password is wrong',
-                      //                     style: TextStyle(
-                      //                         fontSize: 24,
-                      //                         fontWeight: FontWeight.bold
-                      //                     ),
-                      //                 )
-                      //             ),
-                      //             const SizedBox(height: 20),
-                      //             TextButton(
-                      //                 onPressed: () {
-                      //                     Navigator.pop(context);
-                      //                 },
-                      //                 child: const Text('Try again'),
-                      //             )
-                      //           ]
-                      //         )
-                      //       )
-                      //       );
-                      //   });
-                      // }
                     }
                   }
                 )),
