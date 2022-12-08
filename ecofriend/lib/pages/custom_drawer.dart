@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ecofriend/main.dart';
+import 'user/login.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -20,6 +21,16 @@ class CustomDrawer extends StatelessWidget {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const NewsPage()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('UserDebug'),
+            onTap: () {
+              // Route menu ke halaman news
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
               );
             },
           ),
