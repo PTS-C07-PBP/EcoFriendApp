@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
         home: const NewsPage(),
         routes: {
           "/addArticle": (BuildContext context) => const AddArticlePage(),
+          //"/login": (BuildContext context) => const LoginPage(),
         },
       ),
     );
@@ -99,6 +100,7 @@ class _NewsPageState extends State<NewsPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: addArticle,
         tooltip: 'Add Article',
+        backgroundColor: const Color(0xffcfffcc),
         child: const Icon(Icons.add),
       ),
     );
@@ -220,7 +222,13 @@ class _NewsPageState extends State<NewsPage> {
                     setState(() {});
                   });
                 },
-              )
+              ),
+              Text(
+                'Page: $_thisPageNum',
+                style: const TextStyle(
+                  fontSize: 14.0,
+                ),
+              ),
             ]);
           } else if (index == 2) {
             // Paginator
@@ -261,74 +269,82 @@ class _NewsPageState extends State<NewsPage> {
                 margin:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
-                    color: const Color(0xffcfffcc),
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
-                    //border:Border.all(width: 1.0, color: const Color(0xff198754)),
+                    border:
+                        Border.all(width: 1.0, color: const Color(0xff198754)),
                     boxShadow: const [
-                      BoxShadow(color: Color.fromARGB(167, 207, 255, 204), blurRadius: 10.0)
+                      BoxShadow(
+                          color: Color.fromARGB(200, 207, 255, 204),
+                          blurRadius: 10.0)
                     ]),
-                child: Column(children: [
-                  // Gambar article
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: CachedNetworkImage(
-                      placeholder: (context, url) =>
-                          const CircularProgressIndicator(),
-                      imageUrl: "${snapshot.data![index].fields.image}",
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  // Text article
-                  Column(
+                child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-                        child: Text(
-                          "${snapshot.data![index].fields.title}",
-                          style: const TextStyle(
-                            fontSize: 17.0,
-                            fontWeight: FontWeight.bold,
+                      // Gambar article
+                      if (snapshot.data![index].fields.image != '') ...[
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: CachedNetworkImage(
+                            imageUrl: "${snapshot.data![index].fields.image}",
+                            fit: BoxFit.cover,
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
-                        child: Text(
-                          "${snapshot.data![index].fields.date.year.toString().padLeft(4, '0')}-${snapshot.data![index].fields.date.month.toString().padLeft(2, '0')}-${snapshot.data![index].fields.date.day.toString().padLeft(2, '0')}",
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: Colors.grey.shade600,
+                      ] else
+                        ...[],
+                      // Text article
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+                            child: Text(
+                              "${snapshot.data![index].fields.title}",
+                              style: const TextStyle(
+                                fontSize: 17.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                        child: Text(
-                          "${snapshot.data![index].fields.region}",
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: Colors.grey.shade600,
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
+                            child: Text(
+                              "${snapshot.data![index].fields.date.year.toString().padLeft(4, '0')}-${snapshot.data![index].fields.date.month.toString().padLeft(2, '0')}-${snapshot.data![index].fields.date.day.toString().padLeft(2, '0')}",
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
-                        child: Text(
-                          "${snapshot.data![index].fields.description}",
-                          style: const TextStyle(
-                            fontSize: 14.0,
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                            child: Text(
+                              "${snapshot.data![index].fields.region}",
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
                           ),
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+                            child: Text(
+                              "${snapshot.data![index].fields.description}",
+                              style: const TextStyle(
+                                fontSize: 14.0,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ]),
+                    ]),
               ),
               onTap: () async {
-                var url = Uri.parse("${snapshot.data![index].fields.link}");
-                if (!await launchUrl(url)) {
-                  throw 'Could not launch $url';
+                if (snapshot.data![index].fields.link != '') {
+                  var url = Uri.parse("${snapshot.data![index].fields.link}");
+                  if (!await launchUrl(url)) {
+                    throw 'Could not launch $url';
+                  }
                 }
               },
             );
