@@ -198,72 +198,69 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
             Container(
+              padding: const EdgeInsets.all(20),
+              child: TextFormField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(90.0),
+                  ),
+                  labelText: 'Password Confirmation',
+                ),
+
+                onChanged: (String? value) {
+                    setState((){
+                        _password2 = value!;
+                    });
+                },
+                validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                        return 'Password is required!';
+                    }
+
+                    if (value != _password1) {
+                        return 'Password not matched!';
+                    }
+                    return null;
+                },
+              ),
+            ),
+            Container(
                 height: 80,
                 padding: const EdgeInsets.all(20),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(50),
                   ),
-                  child: const Text('Log In'),
+                  child: const Text('Register'),
                   onPressed: () async {
                     if (_registerFormKey.currentState!.validate()) {
-                      final response = await request.login("https://ecofriend.up.railway.app/authentication/login/", {
-                                                    'username': _username,
-                                                    'password': _password1,
-                      }).then((value) {
-                        final newValue = new Map<String, dynamic>.from(value);
-                        print(newValue['message']);
+                      final response = await request.post("https://ecofriend.up.railway.app/authentication/register/", {
+                                    'email': _email,
+                                    'username': _username,
+                                    'first_name': _firstname,
+                                    'last_name': _lastname,
+                                    'password1': _password1,
+                                    'password2': _password2,
+                                    'user_role': _role
+                      });
 
                         setState(() {
-                          if (newValue['message'].toString() ==
-                              "Failed to Login, check your email/password.") {
-                            statusMessage = "Invalid username/password!";
+                          if (response['message'].toString() ==
+                              "User successfully registered") {
+                            statusMessage = "User successfully registered!";
+                            Navigator.pushNamed(context, '/login');
+                          } else if (response['status'].toString() == 
+                              "duplicate") {
+                            statusMessage = "Duplicate Username!";
+                          } else if (response['status'].toString() == 
+                              "pass failed") {
+                            statusMessage = "Password not matched!";
                           } else {
-                            statusMessage = newValue['message'].toString();
+                            statusMessage = response['message'].toString();
                           }
                         });
-                      });
-                      if (request.loggedIn) {
-                        // Code here will run if the login succeeded.
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Login success!"),
-                        ));
-                          Navigator.pushNamed(context, '/');
-                      }
-                      // else {
-                      //   // Code here will run if the login failed (wrong username/password).
-                      //   showDialog(context: context, 
-                      //   builder: (context) {
-                      //     return Dialog (
-                      //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                      //       elevation: 10,
-                      //       child: Container(
-                      //         child: ListView(
-                      //           padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                      //           shrinkWrap: true,
-                      //           children: <Widget>[
-                      //             const Center(
-                      //                 child: Text(
-                      //                     'Username or Password is wrong',
-                      //                     style: TextStyle(
-                      //                         fontSize: 24,
-                      //                         fontWeight: FontWeight.bold
-                      //                     ),
-                      //                 )
-                      //             ),
-                      //             const SizedBox(height: 20),
-                      //             TextButton(
-                      //                 onPressed: () {
-                      //                     Navigator.pop(context);
-                      //                 },
-                      //                 child: const Text('Try again'),
-                      //             )
-                      //           ]
-                      //         )
-                      //       )
-                      //       );
-                      //   });
-                      // }
+
+                      
                     }
                   }
                 )),
