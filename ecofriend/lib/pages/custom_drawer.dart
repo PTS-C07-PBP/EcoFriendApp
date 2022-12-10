@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ecofriend/main.dart';
 import 'user/login.dart';
+import 'review/review_index.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -67,11 +68,11 @@ class CustomDrawer extends StatelessWidget {
                     ListTile(
             title: const Text('Review'),
             onTap: () {
-              // Navigator.pushReplacement(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => const ReviewPage()),
-              // );
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ReviewPage()),
+              );
             },
           ),
         ],

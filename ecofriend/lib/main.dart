@@ -11,6 +11,9 @@ import 'pages/custom_color.dart';
 import 'pages/news/add_article.dart';
 import 'models/article.dart';
 
+// Review Page
+import 'pages/review/add_review.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -33,6 +36,7 @@ class MyApp extends StatelessWidget {
         home: const NewsPage(),
         routes: {
           "/addArticle": (BuildContext context) => const AddArticlePage(),
+          "/addReview": (BuildContext context) => const AddReviewPage(),
         },
       ),
     );
