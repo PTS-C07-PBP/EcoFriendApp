@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:url_launcher/url_launcher.dart';
 
 import '../custom_drawer.dart';
 
@@ -83,6 +82,8 @@ class _ReviewPageState extends State<ReviewPage> {
         reviews.add(Review.fromJson(u));
       }
     }
+
+    reviews.sort((a,b) => b.date.compareTo(a.date));
 
     return reviews;
   }
