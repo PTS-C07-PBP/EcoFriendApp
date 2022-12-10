@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-import 'dart:convert';
 
 import '../custom_drawer.dart';
 
@@ -54,6 +53,7 @@ class _AddArticlePageState extends State<AddArticlePage> {
     final request = context.watch<CookieRequest>();
 
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       backgroundColor: const Color(0xfff3fcf2),
       appBar: AppBar(
         title: Text(
@@ -155,7 +155,7 @@ class _AddArticlePageState extends State<AddArticlePage> {
               ),
               Padding(
                 // Input description
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
                 child: TextFormField(
                   maxLines: 6,
                   decoration: InputDecoration(
@@ -196,16 +196,16 @@ class _AddArticlePageState extends State<AddArticlePage> {
                   },
                 ),
               ),
-              const Spacer(),
               SizedBox(
                   width: 150,
                   height: 50,
                   child: TextButton(
                     style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all(const Color(0xffcfffcc)),
-                          shadowColor: MaterialStateProperty.all(const Color(0xff000000)),
-                          elevation: MaterialStateProperty.all(2),
+                          MaterialStateProperty.all(const Color(0xff00fc97)),
+                      shadowColor:
+                          MaterialStateProperty.all(const Color(0xff000000)),
+                      elevation: MaterialStateProperty.all(2),
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
@@ -231,10 +231,13 @@ class _AddArticlePageState extends State<AddArticlePage> {
   }
 
   void postArticle(CookieRequest request) async {
-    //TODO: Tunggu authenticate
+    // Add article
+    var csrfToken = request.headers['cookie']!
+        .split(';')
+        .firstWhere((element) => element.startsWith('csrftoken'))
+        .split('=')[1];
     var response = await request.post(
         'https://ecofriend.up.railway.app/news/add/',
-        jsonEncode(
-            {'title': _title, 'region': _region, 'description': _description}));
-  } //'https://ecofriend.up.railway.app/news/add/'
+        {'title': _title, 'region': _region, 'description': _description, 'csrfmiddlewaretoken': csrfToken});
+  }
 }

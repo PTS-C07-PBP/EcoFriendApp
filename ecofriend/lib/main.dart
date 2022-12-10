@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'pages/custom_drawer.dart';
 import 'pages/custom_color.dart';
 import 'pages/news/add_article.dart';
+import 'pages/user/login.dart';
 import 'models/article.dart';
 
 void main() {
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         home: const NewsPage(),
         routes: {
           "/addArticle": (BuildContext context) => const AddArticlePage(),
-          //"/login": (BuildContext context) => const LoginPage(),
+          "/login": (BuildContext context) => const LoginPage(),
         },
       ),
     );
@@ -65,6 +66,8 @@ class _NewsPageState extends State<NewsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -93,15 +96,18 @@ class _NewsPageState extends State<NewsPage> {
                 );
               } else {
                 // Make cards
-                return makeCards(snapshot);
+                return makeCards(request, snapshot);
               }
             }
           }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: addArticle,
-        tooltip: 'Add Article',
-        backgroundColor: const Color(0xffcfffcc),
-        child: const Icon(Icons.add),
+      floatingActionButton: Visibility(
+        visible: (newValue['status'] == true) ? true : false,
+        child: FloatingActionButton(
+          onPressed: addArticle,
+          tooltip: 'Add Article',
+          backgroundColor: const Color(0xff00fc97),
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
@@ -161,15 +167,20 @@ class _NewsPageState extends State<NewsPage> {
   }
 
   addArticle() {
+    // Push and refresh
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const AddArticlePage()),
-    );
+    ).then((_) {
+      setState(() {
+        _firstTime = false;
+      });
+    });
   }
 
-  makeCards(AsyncSnapshot snapshot) {
+  makeCards(CookieRequest request, AsyncSnapshot snapshot) {
     return ListView.builder(
-        itemCount: snapshot.data!.length + 2,
+        itemCount: snapshot.data!.length + 3,
         itemBuilder: (_, index) {
           if (index == 0) {
             // Intro
@@ -245,7 +256,7 @@ class _NewsPageState extends State<NewsPage> {
                         child: TextButton(
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                const Color(0xffcfffcc)),
+                                const Color(0xff00fc97)),
                           ),
                           onPressed: () {
                             _firstTime = false;
@@ -262,7 +273,7 @@ class _NewsPageState extends State<NewsPage> {
                 ]);
           } else {
             // Cards
-            index -= 2;
+            index -= 3;
             return InkWell(
               child: Container(
                 // Style container
@@ -290,8 +301,7 @@ class _NewsPageState extends State<NewsPage> {
                             fit: BoxFit.cover,
                           ),
                         ),
-                      ] else
-                        ...[],
+                      ],
                       // Text article
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -335,6 +345,37 @@ class _NewsPageState extends State<NewsPage> {
                               ),
                             ),
                           ),
+                          if (snapshot.data![index].fields.user ==
+                                  newValue['current_user'] &&
+                              newValue['current_user'] != null) ...[
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                              child: SizedBox(
+                                  width: 50,
+                                  height: 50,
+                                  child: TextButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              const Color(0xff00fc97)),
+                                      shadowColor: MaterialStateProperty.all(
+                                          const Color(0xff000000)),
+                                      elevation: MaterialStateProperty.all(2),
+                                    ),
+                                    onPressed: () {
+                                      deleteArticle(
+                                          request, snapshot.data![index].pk);
+                                    },
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: const [
+                                          Icon(Icons.delete,
+                                              color: Colors.black),
+                                        ]),
+                                  )),
+                            ),
+                          ],
                         ],
                       ),
                     ]),
@@ -350,5 +391,26 @@ class _NewsPageState extends State<NewsPage> {
             );
           }
         });
+  }
+
+  deleteArticle(CookieRequest request, int id) async {
+    // Delete article
+    var csrfToken = request.headers['cookie']!
+        .split(';')
+        .firstWhere((element) => element.startsWith('csrftoken'))
+        .split('=')[1];
+
+    final response = await request.post(
+        'https://ecofriend.up.railway.app/news/delete/$id',
+        {'csrfmiddlewaretoken': csrfToken});
+
+    // ignore: use_build_context_synchronously
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('Delete successful'),
+    ));
+
+    setState(() {
+      _firstTime = false;
+    });
   }
 }
