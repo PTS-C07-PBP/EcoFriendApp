@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ecofriend">
    <application
-        android:label="ecofriend"
+        android:label="EcoFriend"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -34,12 +34,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- Provide required visibility configuration for API level 30 and above -->
     <queries>
-    <!-- If your app checks for SMS support -->
         <intent>
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="http" />
         </intent>
-        <!-- If your app checks for call support -->
         <intent>
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="https" />
