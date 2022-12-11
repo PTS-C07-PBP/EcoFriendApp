@@ -227,10 +227,6 @@ class _AddReviewPageState extends State<AddReviewPage> {
 
     if (_formKey.currentState!.validate()) {
       // post using http to https://ecofriend.up.railway.app/review/addreview/
-
-      // print(request.headers);
-      // print(crsfToken);
-
       final response = await request.post(
         'https://ecofriend.up.railway.app/review/addreview/',
         {
@@ -249,19 +245,6 @@ class _AddReviewPageState extends State<AddReviewPage> {
           MaterialPageRoute(builder: (context) => const ReviewPage()),
         );
       }
-
-      // if (response != null) {
-      //   // Code here will run if the login succeeded.
-      //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      //     content: Text("Review berhasil ditambah!"),
-      //   ));
-      //   Navigator.pushNamed(context, '/');
-      // } else {
-      //   // Code here will run if the login failed.
-      //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      //     content: Text("Review gagal ditambah!"),
-      //   ));
-      // }
     }
   }
 }
