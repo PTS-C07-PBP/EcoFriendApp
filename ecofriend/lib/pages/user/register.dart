@@ -51,7 +51,7 @@ class _RegisterPageState extends State<RegisterPage> {
   String _password1 = "";
   String _password2 = "";
   String? _role = 'EcoUser';
-  final List<String> _listRole = [
+  final List<String> listRole = [
     'Admin',
     'EcoUser',
   ];
@@ -80,7 +80,7 @@ class _RegisterPageState extends State<RegisterPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(10),
               child: TextFormField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -102,7 +102,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(10),
               child: TextFormField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -124,7 +124,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(10),
               child: TextFormField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -146,7 +146,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(10),
               child: TextFormField(
                 obscureText: true,
                 decoration: InputDecoration(
@@ -170,7 +170,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(10),
               child: TextFormField(
                 obscureText: true,
                 decoration: InputDecoration(
@@ -198,35 +198,31 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(20),
-              child: TextFormField(
+              padding: const EdgeInsets.all(10),
+              child: DropdownButtonFormField(
+                value: _role,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(90.0),
                   ),
-                  labelText: 'Password Confirmation',
+                  labelText: 'Role',
                 ),
-
-                onChanged: (String? value) {
-                    setState((){
-                        _password2 = value!;
-                    });
-                },
-                validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                        return 'Password is required!';
-                    }
-
-                    if (value != _password1) {
-                        return 'Password not matched!';
-                    }
-                    return null;
+                items: listRole.map((String items) {
+                  return DropdownMenuItem(
+                    value: items,
+                    child: Text(items),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _role = newValue!;
+                  });
                 },
               ),
             ),
             Container(
                 height: 80,
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(10),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(50),
@@ -242,23 +238,33 @@ class _RegisterPageState extends State<RegisterPage> {
                                     'password1': _password1,
                                     'password2': _password2,
                                     'user_role': _role
-                      });
+                      }).then((value) {
+                        final newValue = new Map<String, dynamic>.from(value);
+                        print(newValue['message']);
 
                         setState(() {
-                          if (response['message'].toString() ==
+                          if (newValue['message'].toString() ==
                               "User successfully registered") {
                             statusMessage = "User successfully registered!";
-                            Navigator.pushNamed(context, '/login');
-                          } else if (response['status'].toString() == 
+                            Navigator.pushNamed(context, '/');
+                          } else if (newValue['status'].toString() == 
                               "duplicate") {
                             statusMessage = "Duplicate Username!";
-                          } else if (response['status'].toString() == 
+                          } else if (newValue['status'].toString() == 
                               "pass failed") {
                             statusMessage = "Password not matched!";
                           } else {
-                            statusMessage = response['message'].toString();
+                            statusMessage = newValue['message'].toString();
                           }
                         });
+                      });
+                      if (response['status'] == 'success') {
+                        // Code here will run if the login succeeded.
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("Registration success!"),
+                        ));
+                          Navigator.pushNamed(context, '/login');
+                      }
 
                       
                     }
