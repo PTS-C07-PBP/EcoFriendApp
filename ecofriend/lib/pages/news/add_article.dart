@@ -236,7 +236,7 @@ class _AddArticlePageState extends State<AddArticlePage> {
         .split(';')
         .firstWhere((element) => element.startsWith('csrftoken'))
         .split('=')[1];
-    var response = await request.post(
+    await request.post(
         'https://ecofriend.up.railway.app/news/add/',
         {'title': _title, 'region': _region, 'description': _description, 'csrfmiddlewaretoken': csrfToken});
   }

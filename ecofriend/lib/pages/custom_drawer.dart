@@ -11,7 +11,8 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
+    return SafeArea(
+        child: Drawer(
       backgroundColor: const Color(0xffcfffcc),
       child: Column(
         children: [
@@ -76,6 +77,6 @@ class CustomDrawer extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 }
