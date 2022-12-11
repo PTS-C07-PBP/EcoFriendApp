@@ -1,95 +1,128 @@
-import 'dart:convert';
 import 'package:ecofriend/models/footprint.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 import '../custom_drawer.dart';
+import '../user/login.dart';
+
+import 'add_footprint.dart';
 
 class TrackerPage extends StatefulWidget {
-  const TrackerPage({Key? key}) : super(key: key);
+  const TrackerPage({super.key});
+  final String title = 'Carbon Footprint Tracker';
 
   @override
-  _TrackerPageState createState() => _TrackerPageState();
+  State<TrackerPage> createState() => _TrackerPageState();
 }
 
 class _TrackerPageState extends State<TrackerPage> {
-  // fetch json data
-  Future<List<Footprint>> fetchWatchList() async {
-    // how
-    var url = Uri.parse('https://ecofriend.up.railway.app/tracker/get_data');
-    var response = await http.get(
-      url,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-      },
-    );
-
-    // melakukan decode response menjadi bentuk json
-    var data = jsonDecode(utf8.decode(response.bodyBytes));
-
-    // melakukan konversi data json menjadi object MyWatchList
-    List<Footprint> history = [];
-    for (var d in data) {
-      if (d != null) {
-        history.add(Footprint.fromJson(d));
-      }
-    }
-    return history;
-  }
-
+  //int _thisUser = 1;
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Carbon Footprint Tracker'),
+          title: Text(
+            widget.title,
+            style: const TextStyle(
+                color: Colors.black, fontFamily: 'Lobster', fontSize: 23),
+          ),
         ),
         drawer: const CustomDrawer(),
         body: FutureBuilder(
-            future: fetchWatchList(),
+            future: fetchHistory(request),
             builder: (context, AsyncSnapshot snapshot) {
-              if (snapshot.data == null) {
-                return const Center(child: CircularProgressIndicator());
+              if (request.loggedIn == false) {
+                return const Center(
+                    child: Text("Login and track your carbon footprint!",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'Lobster',
+                            fontSize: 40)));
               } else {
                 if (!snapshot.hasData) {
-                  return Column(
-                    children: const [
-                      Text(
-                        "You don't have any history",
-                        style: TextStyle(
-                            color: Color(0xff59A5D8),
-                            fontSize: 20),
-                      ),
-                      SizedBox(height: 8),
-                    ],
-                  );
+                  return const Center(
+                      child: Text("You don't have any history",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'Lobster',
+                              fontSize: 40)));
                 } else {
-                  return ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (_, index)=> Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1.0),
-                        child: Column(
-                          // align the text to the left instead of centered
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            ListTile(
-                              title: Text("${snapshot.data![index].fields.datetimeShow}",
-                                style: const TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
+                  return makeCards(request, snapshot);
                 }
               }
             }
-        )
+            // This trailing comma makes auto-formatting nicer for build methods.
+            ),
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(left: 10),
+          child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+            Expanded(child: Container()),
+            if (request.loggedIn == true)
+              FloatingActionButton(
+                onPressed: addFootprint,
+                tooltip: 'Add Footprint',
+                child: const Icon(Icons.add),
+              ),
+            // This trailing comma makes auto-formatting nicer for build methods.
+          ]),
+        ));
+  }
+
+  // fetch json data
+  Future<List<Footprint>> fetchHistory(CookieRequest request) async {
+    List<Footprint> footprintHistory = [];
+    if (request.loggedIn == true) {
+      var res = await request.get(
+        'https://ecofriend.up.railway.app/tracker/show_json',
+      );
+
+      // melakukan konversi data json menjadi object Footprint
+      for (var d in res) {
+        if (d != null) {
+          footprintHistory.add(Footprint.fromJson(d));
+        }
+      }
+    }
+    return footprintHistory;
+  }
+
+  makeCards(CookieRequest request, AsyncSnapshot snapshot) {
+    return ListView.builder(
+      itemCount: snapshot.data!.length,
+      itemBuilder: (_, index) => Card(
+        child: Padding(
+          padding: const EdgeInsets.all(3.0),
+          child: Column(
+            // align the text to the left instead of centered
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ListTile(
+                title: Text(
+                  "You traveled for ${snapshot.data![index].fields.mileage} km and create as much as ${snapshot.data![index].fields.carbon} g of carbon footprint",
+                  style: const TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Text(
+                  "${snapshot.data![index].fields.datetimeShow}",
+                  style: const TextStyle(
+                    fontSize: 14.0,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void addFootprint() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AddFootprintPage()),
     );
   }
 }

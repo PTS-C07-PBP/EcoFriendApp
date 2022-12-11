@@ -1,3 +1,4 @@
+import 'package:ecofriend/pages/tracker/tracker.dart';
 import 'package:flutter/material.dart';
 import 'package:ecofriend/main.dart';
 import 'user/login.dart';
@@ -38,11 +39,10 @@ class CustomDrawer extends StatelessWidget {
           ListTile(
             title: const Text('Tracker'),
             onTap: () {
-              // Navigator.pushReplacement(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => const TrackingPage()),
-              // );
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const TrackerPage()),
+              );
             },
           ),
           ListTile(
@@ -65,13 +65,12 @@ class CustomDrawer extends StatelessWidget {
               // );
             },
           ),
-                    ListTile(
+          ListTile(
             title: const Text('Review'),
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => const ReviewPage()),
+                MaterialPageRoute(builder: (context) => const ReviewPage()),
               );
             },
           ),
