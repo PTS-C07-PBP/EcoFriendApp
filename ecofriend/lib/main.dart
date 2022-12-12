@@ -1,4 +1,3 @@
-import 'package:ecofriend/pages/tracker/add_footprint.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -11,10 +10,14 @@ import 'pages/custom_drawer.dart';
 import 'pages/custom_color.dart';
 import 'pages/news/add_article.dart';
 import 'pages/user/login.dart';
+import 'pages/review/add_review.dart';
+import 'pages/tracker/add_footprint.dart';
 import 'models/article.dart';
 
-// Review Page
-import 'pages/review/add_review.dart';
+import 'package:appcenter/appcenter.dart';
+import 'package:appcenter_analytics/appcenter_analytics.dart';
+import 'package:appcenter_crashes/appcenter_crashes.dart';
+import 'package:flutter/foundation.dart';
 
 void main() {
   runApp(const MyApp());
@@ -56,6 +59,19 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> {
+
+  void initAppCenter() async{
+    final ios = defaultTargetPlatform == TargetPlatform.iOS;
+    var appSecret = ios ? "77625dd1-44e1-4edb-8d2f-1b261822919a" : "ece9a988-ba13-41af-9429-8977e213335d";
+
+    await AppCenter.start(appSecret, [AppCenterAnalytics.id, AppCenterCrashes.id]);
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    initAppCenter();
+  }
   int _pageNum = 1;
   bool _firstTime = true;
   int _thisPageNum = 1;
