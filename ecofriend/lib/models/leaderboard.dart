@@ -1,15 +1,17 @@
 // To parse this JSON data, do
 //
-//     final welcome = welcomeFromJson(jsonString);
+//     final leaderboard = leaderboardFromJson(jsonString);
 
 import 'dart:convert';
 
-List<Welcome> welcomeFromJson(String str) => List<Welcome>.from(json.decode(str).map((x) => Welcome.fromJson(x)));
+List<Leaderboard> leaderboardFromJson(String str) => List<Leaderboard>.from(
+    json.decode(str).map((x) => Leaderboard.fromJson(x)));
 
-String welcomeToJson(List<Welcome> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String leaderboardToJson(List<Leaderboard> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Welcome {
-  Welcome({
+class Leaderboard {
+  Leaderboard({
     required this.rank,
     required this.nama,
     required this.mileage,
@@ -18,20 +20,20 @@ class Welcome {
 
   int rank;
   String nama;
-  int mileage;
-  int footprint;
+  double mileage;
+  double footprint;
 
-  factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
-    rank: json["rank"],
-    nama: json["nama"],
-    mileage: json["mileage"],
-    footprint: json["footprint"],
-  );
+  factory Leaderboard.fromJson(Map<String, dynamic> json) => Leaderboard(
+        rank: json["rank"],
+        nama: json["nama"],
+        mileage: json["mileage"].toDouble(),
+        footprint: json["footprint"].toDouble(),
+      );
 
   Map<String, dynamic> toJson() => {
-    "rank": rank,
-    "nama": nama,
-    "mileage": mileage,
-    "footprint": footprint,
-  };
+        "rank": rank,
+        "nama": nama,
+        "mileage": mileage,
+        "footprint": footprint,
+      };
 }
