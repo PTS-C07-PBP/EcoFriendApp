@@ -5,29 +5,7 @@ import 'package:provider/provider.dart';
 import '../custom_drawer.dart';
 import 'register.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
 var newValue = {};
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color(0xff00fc97),
-            primary: const Color(0xff00fc97)),
-      ),
-      home: const LoginPage(),
-    );
-  }
-}
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -133,9 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                                 'username': _username,
                                 'password': _password,
                               }).then((value) {
-                            newValue =
-                                new Map<String, dynamic>.from(value);
-                            print(newValue['message']);
+                            newValue = Map<String, dynamic>.from(value);
 
                             setState(() {
                               if (newValue['message'].toString() ==
@@ -174,13 +150,4 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ));
   }
-
-  // void postArticle(CookieRequest request) async {
-  //   //TODO: Tunggu authenticate
-  //   var url = Uri.parse('https://ecofriend.up.railway.app/news/add/');
-
-  //   var response = await request.post(
-  //       'https://ecofriend.up.railway.app/news/add/',
-  //       jsonEncode({'title': _title, 'region': _region, 'description': _description}));
-  // }
 }

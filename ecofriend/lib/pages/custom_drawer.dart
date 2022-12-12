@@ -1,11 +1,13 @@
 import 'package:ecofriend/main.dart';
 import 'package:flutter/material.dart';
-
-import 'caloriesburned/caloriesburned.dart';
 import 'leaderboard/ranking.dart';
+import 'caloriesburned/caloriesburned.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
+import 'user/login.dart';
+import 'user/profile.dart';
 import 'review/review_index.dart';
 import 'tracker/tracker.dart';
-import 'user/login.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -14,6 +16,7 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return SafeArea(
         child: Drawer(
       backgroundColor: const Color(0xffcfffcc),
@@ -31,13 +34,20 @@ class CustomDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            title: const Text('UserDebug'),
+            title: const Text('EcoUser'),
             onTap: () {
               // Route menu ke halaman news
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginPage()),
-              );
+              if (request.loggedIn == false) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                );
+              } else {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProfilePage()),
+                );
+              }
             },
           ),
           ListTile(

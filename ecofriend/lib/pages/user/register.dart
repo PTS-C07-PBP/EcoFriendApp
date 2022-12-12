@@ -5,34 +5,6 @@ import 'dart:convert';
 
 import '../custom_drawer.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-// rgb(0, 252, 151) rgb(207, 255, 204)
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Provider(
-        create: (_) {
-            CookieRequest request = CookieRequest();
-            return request;
-        },
-        child: MaterialApp(
-        title: 'Register',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: const Color(0xff00fc97),
-              primary: const Color(0xff00fc97)),
-        ),
-        home: const RegisterPage(),
-      )
-    );
-  }
-}
-
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
   final String title = 'Register EcoUser';
@@ -51,7 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
   String _password1 = "";
   String _password2 = "";
   String? _role = 'EcoUser';
-  final List<String> _listRole = [
+  final List<String> listRole = [
     'Admin',
     'EcoUser',
   ];
@@ -80,7 +52,7 @@ class _RegisterPageState extends State<RegisterPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(10),
               child: TextFormField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -102,7 +74,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(10),
               child: TextFormField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -124,7 +96,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(10),
               child: TextFormField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -146,7 +118,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(10),
               child: TextFormField(
                 obscureText: true,
                 decoration: InputDecoration(
@@ -170,7 +142,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(10),
               child: TextFormField(
                 obscureText: true,
                 decoration: InputDecoration(
@@ -198,72 +170,78 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
             Container(
+              padding: const EdgeInsets.all(10),
+              child: DropdownButtonFormField(
+                value: _role,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(90.0),
+                  ),
+                  labelText: 'Role',
+                ),
+                items: listRole.map((String items) {
+                  return DropdownMenuItem(
+                    value: items,
+                    child: Text(items),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _role = newValue!;
+                  });
+                },
+              ),
+            ),
+            Container(
                 height: 80,
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(10),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(50),
                   ),
-                  child: const Text('Log In'),
+                  child: const Text('Register'),
                   onPressed: () async {
                     if (_registerFormKey.currentState!.validate()) {
-                      final response = await request.login("https://ecofriend.up.railway.app/authentication/login/", {
-                                                    'username': _username,
-                                                    'password': _password1,
+                      final response = await request.post("https://ecofriend.up.railway.app/authentication/register/", {
+                                    'email': _email,
+                                    'username': _username,
+                                    'first_name': _firstname,
+                                    'last_name': _lastname,
+                                    'password1': _password1,
+                                    'password2': _password2,
+                                    'user_role': _role
                       }).then((value) {
                         final newValue = new Map<String, dynamic>.from(value);
                         print(newValue['message']);
 
                         setState(() {
                           if (newValue['message'].toString() ==
-                              "Failed to Login, check your email/password.") {
-                            statusMessage = "Invalid username/password!";
+                              "User successfully registered") {
+                            statusMessage = "User successfully registered!";
+                            Navigator.pushNamed(context, '/');
+                          } else if (newValue['status'].toString() == "duplicate") {
+                            statusMessage = "Duplicate Username!";
+                          } else if (newValue['status'].toString() == "pass failed") {
+                            statusMessage = "Password not matched!";
                           } else {
                             statusMessage = newValue['message'].toString();
                           }
                         });
                       });
-                      if (request.loggedIn) {
-                        // Code here will run if the login succeeded.
+                      if (response['status'] == 'success') {
                         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Login success!"),
+                          content: Text("Registration success!"),
                         ));
                           Navigator.pushNamed(context, '/');
+                      } else if (response['status'] == 'failed') {
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("Login failed, try again"),
+                        ));
+                      } else {
+
                       }
-                      // else {
-                      //   // Code here will run if the login failed (wrong username/password).
-                      //   showDialog(context: context, 
-                      //   builder: (context) {
-                      //     return Dialog (
-                      //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                      //       elevation: 10,
-                      //       child: Container(
-                      //         child: ListView(
-                      //           padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                      //           shrinkWrap: true,
-                      //           children: <Widget>[
-                      //             const Center(
-                      //                 child: Text(
-                      //                     'Username or Password is wrong',
-                      //                     style: TextStyle(
-                      //                         fontSize: 24,
-                      //                         fontWeight: FontWeight.bold
-                      //                     ),
-                      //                 )
-                      //             ),
-                      //             const SizedBox(height: 20),
-                      //             TextButton(
-                      //                 onPressed: () {
-                      //                     Navigator.pop(context);
-                      //                 },
-                      //                 child: const Text('Try again'),
-                      //             )
-                      //           ]
-                      //         )
-                      //       )
-                      //       );
-                      //   });
-                      // }
+
+                      
                     }
                   }
                 )),
