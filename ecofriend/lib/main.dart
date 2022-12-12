@@ -62,9 +62,9 @@ class _NewsPageState extends State<NewsPage> {
 
   void initAppCenter() async{
     final ios = defaultTargetPlatform == TargetPlatform.iOS;
-    var app_secret = ios ? "77625dd1-44e1-4edb-8d2f-1b261822919a" : "ece9a988-ba13-41af-9429-8977e213335d";
+    var appSecret = ios ? "77625dd1-44e1-4edb-8d2f-1b261822919a" : "ece9a988-ba13-41af-9429-8977e213335d";
 
-    await AppCenter.start(app_secret, [AppCenterAnalytics.id, AppCenterCrashes.id]);
+    await AppCenter.start(appSecret, [AppCenterAnalytics.id, AppCenterCrashes.id]);
   }
 
   @override
