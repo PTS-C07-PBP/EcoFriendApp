@@ -1,10 +1,8 @@
-import 'dart:io';
 
+import 'package:ecofriend/pages/review/review_index.dart';
 import 'package:flutter/material.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 import 'package:ecofriend/pages/user/login.dart';
 import '../custom_drawer.dart';
@@ -128,7 +126,7 @@ class _AddReviewPageState extends State<AddReviewPage> {
                     items: _ratingList.map((int value) {
                       return DropdownMenuItem(
                         value: value,
-                        child: Text('$value of 5'),
+                        child: Row(children: List.generate(value, (index) => const Icon(Icons.star, color: Color(0xff00fc97),)))
                       );
                     }).toList(),
                     onChanged: (int? value) {
@@ -183,7 +181,6 @@ class _AddReviewPageState extends State<AddReviewPage> {
                   ),
                 ),
                 Text(_statusMessage),
-                const Spacer(),
                 SizedBox(
                     width: 150,
                     height: 50,
@@ -230,10 +227,6 @@ class _AddReviewPageState extends State<AddReviewPage> {
 
     if (_formKey.currentState!.validate()) {
       // post using http to https://ecofriend.up.railway.app/review/addreview/
-
-      print(request.headers);
-      print(crsfToken);
-
       final response = await request.post(
         'https://ecofriend.up.railway.app/review/addreview/',
         {
@@ -243,17 +236,14 @@ class _AddReviewPageState extends State<AddReviewPage> {
           'csrfmiddlewaretoken': crsfToken,
         },
       );
-      if (response != null) {
-        // Code here will run if the login succeeded.
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Review berhasil ditambah!"),
-        ));
-        Navigator.pushNamed(context, '/');
-      } else {
-        // Code here will run if the login failed.
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Review gagal ditambah!"),
-        ));
+
+      if (response != null )
+      {
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ReviewPage()),
+        );
       }
     }
   }

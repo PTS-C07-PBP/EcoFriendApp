@@ -1,9 +1,9 @@
-import 'package:ecofriend/pages/tracker/tracker.dart';
 import 'package:flutter/material.dart';
 import 'package:ecofriend/main.dart';
 import 'leaderboard/ranking.dart';
 import 'user/login.dart';
 import 'review/review_index.dart';
+import 'tracker/tracker.dart';
 
 
 class CustomDrawer extends StatelessWidget {
@@ -13,7 +13,8 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
+    return SafeArea(
+        child: Drawer(
       backgroundColor: const Color(0xffcfffcc),
       child: Column(
         children: [
@@ -82,6 +83,6 @@ class CustomDrawer extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 }

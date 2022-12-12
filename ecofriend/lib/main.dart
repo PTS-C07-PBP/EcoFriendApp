@@ -406,7 +406,7 @@ class _NewsPageState extends State<NewsPage> {
         .firstWhere((element) => element.startsWith('csrftoken'))
         .split('=')[1];
 
-    final response = await request.post(
+    await request.post(
         'https://ecofriend.up.railway.app/news/delete/$id',
         {'csrfmiddlewaretoken': csrfToken});
 
