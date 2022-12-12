@@ -12,6 +12,9 @@ const List<Text> transportations = <Text>[
   Text('On foot', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600))
 ];
 
+final GlobalKey<ScaffoldMessengerState> snackbarKey =
+    GlobalKey<ScaffoldMessengerState>();
+
 void main() {
   runApp(const MyApp());
 }
@@ -23,12 +26,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Add Article',
+      title: 'Add Carbon Footprint',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color(0xff00fc97),
             primary: const Color(0xff00fc97)),
       ),
+      scaffoldMessengerKey: snackbarKey,
       home: const AddFootprintPage(),
     );
   }
@@ -162,6 +166,9 @@ class _AddFootprintPageState extends State<AddFootprintPage> {
                       _type = 'motor';
                     else if (isSelected[2] == true) _type = 'jalan';
                     postFootprint(request);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Footprint added!"),
+                    ));
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -208,9 +215,5 @@ class _AddFootprintPageState extends State<AddFootprintPage> {
       'https://ecofriend.up.railway.app/tracker/add_footprint',
       {'mileage': _mileage, 'type': _type, 'csrfmiddlewaretoken': csrfToken},
     );
-    print(response);
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text("Footprint added!"),
-    ));
   }
 }
