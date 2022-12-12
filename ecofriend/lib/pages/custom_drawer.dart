@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ecofriend/main.dart';
 import 'caloriesburned/caloriesburned.dart';
 import 'user/login.dart';
+import 'review/review_index.dart';
+import 'tracker/tracker.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -10,7 +12,8 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
+    return SafeArea(
+        child: Drawer(
       backgroundColor: const Color(0xffcfffcc),
       child: Column(
         children: [
@@ -38,11 +41,10 @@ class CustomDrawer extends StatelessWidget {
           ListTile(
             title: const Text('Tracker'),
             onTap: () {
-              // Navigator.pushReplacement(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => const TrackingPage()),
-              // );
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const TrackerPage()),
+              );
             },
           ),
           ListTile(
@@ -66,18 +68,17 @@ class CustomDrawer extends StatelessWidget {
               );
             },
           ),
-                    ListTile(
+          ListTile(
             title: const Text('Review'),
             onTap: () {
-              // Navigator.pushReplacement(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => const ReviewPage()),
-              // );
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const ReviewPage()),
+              );
             },
           ),
         ],
       ),
-    );
+    ));
   }
 }

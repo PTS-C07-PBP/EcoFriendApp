@@ -1,3 +1,4 @@
+import 'package:ecofriend/pages/tracker/add_footprint.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -9,7 +10,11 @@ import 'package:url_launcher/url_launcher.dart';
 import 'pages/custom_drawer.dart';
 import 'pages/custom_color.dart';
 import 'pages/news/add_article.dart';
+import 'pages/user/login.dart';
 import 'models/article.dart';
+
+// Review Page
+import 'pages/review/add_review.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,6 +38,9 @@ class MyApp extends StatelessWidget {
         home: const NewsPage(),
         routes: {
           "/addArticle": (BuildContext context) => const AddArticlePage(),
+          "/addReview": (BuildContext context) => const AddReviewPage(),
+          "/login": (BuildContext context) => const LoginPage(),
+          "/addFootprint": (BuildContext context) => const AddFootprintPage(),
         },
       ),
     );
@@ -64,6 +72,8 @@ class _NewsPageState extends State<NewsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -92,14 +102,18 @@ class _NewsPageState extends State<NewsPage> {
                 );
               } else {
                 // Make cards
-                return makeCards(snapshot);
+                return makeCards(request, snapshot);
               }
             }
           }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: addArticle,
-        tooltip: 'Add Article',
-        child: const Icon(Icons.add),
+      floatingActionButton: Visibility(
+        visible: (newValue['status'] == true) ? true : false,
+        child: FloatingActionButton(
+          onPressed: addArticle,
+          tooltip: 'Add Article',
+          backgroundColor: const Color(0xff00fc97),
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
@@ -159,15 +173,20 @@ class _NewsPageState extends State<NewsPage> {
   }
 
   addArticle() {
+    // Push and refresh
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const AddArticlePage()),
-    );
+    ).then((_) {
+      setState(() {
+        _firstTime = false;
+      });
+    });
   }
 
-  makeCards(AsyncSnapshot snapshot) {
+  makeCards(CookieRequest request, AsyncSnapshot snapshot) {
     return ListView.builder(
-        itemCount: snapshot.data!.length + 2,
+        itemCount: snapshot.data!.length + 3,
         itemBuilder: (_, index) {
           if (index == 0) {
             // Intro
@@ -220,7 +239,13 @@ class _NewsPageState extends State<NewsPage> {
                     setState(() {});
                   });
                 },
-              )
+              ),
+              Text(
+                'Page: $_thisPageNum',
+                style: const TextStyle(
+                  fontSize: 14.0,
+                ),
+              ),
             ]);
           } else if (index == 2) {
             // Paginator
@@ -237,7 +262,7 @@ class _NewsPageState extends State<NewsPage> {
                         child: TextButton(
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                const Color(0xffcfffcc)),
+                                const Color(0xff00fc97)),
                           ),
                           onPressed: () {
                             _firstTime = false;
@@ -254,85 +279,144 @@ class _NewsPageState extends State<NewsPage> {
                 ]);
           } else {
             // Cards
-            index -= 2;
+            index -= 3;
             return InkWell(
               child: Container(
                 // Style container
                 margin:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
-                    color: const Color(0xffcfffcc),
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
-                    //border:Border.all(width: 1.0, color: const Color(0xff198754)),
+                    border:
+                        Border.all(width: 1.0, color: const Color(0xff198754)),
                     boxShadow: const [
-                      BoxShadow(color: Color.fromARGB(167, 207, 255, 204), blurRadius: 10.0)
+                      BoxShadow(
+                          color: Color.fromARGB(200, 207, 255, 204),
+                          blurRadius: 10.0)
                     ]),
-                child: Column(children: [
-                  // Gambar article
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: CachedNetworkImage(
-                      placeholder: (context, url) =>
-                          const CircularProgressIndicator(),
-                      imageUrl: "${snapshot.data![index].fields.image}",
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  // Text article
-                  Column(
+                child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-                        child: Text(
-                          "${snapshot.data![index].fields.title}",
-                          style: const TextStyle(
-                            fontSize: 17.0,
-                            fontWeight: FontWeight.bold,
+                      // Gambar article
+                      if (snapshot.data![index].fields.image != '') ...[
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: CachedNetworkImage(
+                            imageUrl: "${snapshot.data![index].fields.image}",
+                            fit: BoxFit.cover,
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
-                        child: Text(
-                          "${snapshot.data![index].fields.date.year.toString().padLeft(4, '0')}-${snapshot.data![index].fields.date.month.toString().padLeft(2, '0')}-${snapshot.data![index].fields.date.day.toString().padLeft(2, '0')}",
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: Colors.grey.shade600,
+                      ],
+                      // Text article
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+                            child: Text(
+                              "${snapshot.data![index].fields.title}",
+                              style: const TextStyle(
+                                fontSize: 17.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                        child: Text(
-                          "${snapshot.data![index].fields.region}",
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: Colors.grey.shade600,
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
+                            child: Text(
+                              "${snapshot.data![index].fields.date.year.toString().padLeft(4, '0')}-${snapshot.data![index].fields.date.month.toString().padLeft(2, '0')}-${snapshot.data![index].fields.date.day.toString().padLeft(2, '0')}",
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
-                        child: Text(
-                          "${snapshot.data![index].fields.description}",
-                          style: const TextStyle(
-                            fontSize: 14.0,
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                            child: Text(
+                              "${snapshot.data![index].fields.region}",
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
                           ),
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+                            child: Text(
+                              "${snapshot.data![index].fields.description}",
+                              style: const TextStyle(
+                                fontSize: 14.0,
+                              ),
+                            ),
+                          ),
+                          if (snapshot.data![index].fields.user ==
+                                  newValue['current_user'] &&
+                              newValue['current_user'] != null) ...[
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                              child: SizedBox(
+                                  width: 50,
+                                  height: 50,
+                                  child: TextButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              const Color(0xff00fc97)),
+                                      shadowColor: MaterialStateProperty.all(
+                                          const Color(0xff000000)),
+                                      elevation: MaterialStateProperty.all(2),
+                                    ),
+                                    onPressed: () {
+                                      deleteArticle(
+                                          request, snapshot.data![index].pk);
+                                    },
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: const [
+                                          Icon(Icons.delete,
+                                              color: Colors.black),
+                                        ]),
+                                  )),
+                            ),
+                          ],
+                        ],
                       ),
-                    ],
-                  ),
-                ]),
+                    ]),
               ),
               onTap: () async {
-                var url = Uri.parse("${snapshot.data![index].fields.link}");
-                if (!await launchUrl(url)) {
-                  throw 'Could not launch $url';
+                if (snapshot.data![index].fields.link != '') {
+                  var url = Uri.parse("${snapshot.data![index].fields.link}");
+                  if (!await launchUrl(url)) {
+                    throw 'Could not launch $url';
+                  }
                 }
               },
             );
           }
         });
+  }
+
+  deleteArticle(CookieRequest request, int id) async {
+    // Delete article
+    var csrfToken = request.headers['cookie']!
+        .split(';')
+        .firstWhere((element) => element.startsWith('csrftoken'))
+        .split('=')[1];
+
+    await request.post(
+        'https://ecofriend.up.railway.app/news/delete/$id',
+        {'csrfmiddlewaretoken': csrfToken});
+
+    // ignore: use_build_context_synchronously
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('Delete successful'),
+    ));
+
+    setState(() {
+      _firstTime = false;
+    });
   }
 }

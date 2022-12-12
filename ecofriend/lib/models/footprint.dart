@@ -4,11 +4,17 @@
 
 import 'dart:convert';
 
-List<Footprint> footprintFromJson(String str) =>
-    List<Footprint>.from(json.decode(str).map((x) => Footprint.fromJson(x)));
+List<dynamic> footprintFromJson(String str) =>
+    List<dynamic>.from(json.decode(str).map((x) => x));
 
-String footprintToJson(List<Footprint> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String footprintToJson(List<dynamic> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x)));
+
+//List<Footprint> footprintFromJson(String str) =>
+//  List<Footprint>.from(json.decode(str).map((x) => Footprint.fromJson(x)));
+
+//String footprintToJson(List<Footprint> data) =>
+//  json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Footprint {
   Footprint({
@@ -45,7 +51,7 @@ class Fields {
     required this.toOrder,
   });
 
-  int user;
+  dynamic user;
   DateTime datetime;
   double mileage;
   double carbon;
