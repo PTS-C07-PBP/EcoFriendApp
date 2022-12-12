@@ -21,6 +21,7 @@ class _LeaderboardState extends State<LeaderboardPage> {
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
     return Scaffold(
+      backgroundColor: const Color(0xffcfffcc),
       appBar: AppBar(
         title: Text(
           widget.title,
