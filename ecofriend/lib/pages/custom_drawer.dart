@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:ecofriend/main.dart';
+import 'package:flutter/material.dart';
+import 'leaderboard/ranking.dart';
 import 'caloriesburned/caloriesburned.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
@@ -61,6 +62,11 @@ class CustomDrawer extends StatelessWidget {
           ListTile(
             title: const Text('Ranking'),
             onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const LeaderboardPage()),
+              );
               // Navigator.pushReplacement(
               //   context,
               //   MaterialPageRoute(
@@ -70,7 +76,7 @@ class CustomDrawer extends StatelessWidget {
           ),
           ListTile(
             title: const Text('Calories Burned'),
-            // Route menu ke halaman calories burned 
+            // Route menu ke halaman calories burned
             onTap: () {
               Navigator.pushReplacement(
                 context,

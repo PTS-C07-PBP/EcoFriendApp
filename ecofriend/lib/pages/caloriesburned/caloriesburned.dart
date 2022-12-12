@@ -1,6 +1,3 @@
-import 'dart:html';
-
-import 'package:ecofriend/main.dart';
 import 'package:ecofriend/models/caloriesburned/calories.dart';
 import 'package:ecofriend/models/caloriesburned/person.dart';
 import 'package:ecofriend/models/caloriesburned/motive.dart';
@@ -17,7 +14,6 @@ import 'package:intl/intl.dart';
 
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-import 'dart:convert';
 
 import '../custom_drawer.dart';
 
