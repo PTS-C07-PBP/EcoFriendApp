@@ -42,6 +42,9 @@ dependencies:
   cached_network_image: ^3.2.3
   url_launcher: ^6.1.7
   flutter_launcher_icons: ^0.11.0
+  appcenter: ^0.2.1
+  appcenter_analytics: ^0.2.1
+  appcenter_crashes: ^0.2.1
 
 flutter_icons:
   android: true
