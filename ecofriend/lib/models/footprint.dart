@@ -1,6 +1,6 @@
 // To parse this JSON data, do
 //
-//     final footprint = footprintFromJson(jsonString);
+//     final Footprint = FootprintFromJson(jsonString);
 
 import 'dart:convert';
 
