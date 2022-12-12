@@ -68,7 +68,7 @@ class _LeaderboardState extends State<LeaderboardPage> {
               }
             }
           } // This trailing comma makes auto-formatting nicer for build methods.
-          ),
+      ),
     );
   }
 
@@ -96,12 +96,13 @@ class _LeaderboardState extends State<LeaderboardPage> {
 
   List<DataRow> makeTable(List<Leaderboard> leaderboard) {
     return leaderboard
-        .map((Leaderboard entry) => DataRow(cells: [
-              DataCell(Text(entry.rank.toString())),
-              DataCell(Text(entry.nama)),
-              DataCell(Text(entry.mileage.toString())),
-              DataCell(Text(entry.footprint.toString()))
-            ]))
+        .map((Leaderboard entry) =>
+        DataRow(cells: [
+          DataCell(Text(entry.rank.toString())),
+          DataCell(Text(entry.nama)),
+          DataCell(Text(entry.mileage.toString())),
+          DataCell(Text(entry.footprint.toString()))
+        ]))
         .toList();
   }
 }
