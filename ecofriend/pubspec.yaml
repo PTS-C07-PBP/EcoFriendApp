@@ -36,6 +36,35 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  provider: ^6.0.4
+  pbp_django_auth: ^0.3.0
+  http: ^0.13.5
+  cached_network_image: ^3.2.3
+  url_launcher: ^6.1.7
+  intl: ^0.17.0
+  charts_flutter: ^0.12.0
+  flutter_launcher_icons: ^0.11.0
+  appcenter: ^0.2.1
+  appcenter_analytics: ^0.2.1
+  appcenter_crashes: ^0.2.1
+
+flutter_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/icon/ecofriend-logo.png"
+  web:
+    generate: true
+    image_path: "assets/icon/ecofriend-logo.png"
+    background_color: "#1A1A1A"
+    theme_color: "#1A1A1A"
+  windows:
+    generate: true
+    image_path: "assets/icon/ecofriend-logo.png"
+    icon_size: 48 
+  macos:
+    generate: true
+    image_path: "assets/icon/ecofriend-logo.png"
 
 dev_dependencies:
   flutter_test:
@@ -54,6 +83,11 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
 
+  fonts:
+    - family: Lobster
+      fonts:
+        - asset: fonts/Lobster-Regular.ttf
+        
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
