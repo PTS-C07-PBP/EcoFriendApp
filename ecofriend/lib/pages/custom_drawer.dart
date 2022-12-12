@@ -1,7 +1,10 @@
 import 'package:ecofriend/pages/tracker/tracker.dart';
 import 'package:flutter/material.dart';
 import 'package:ecofriend/main.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 import 'user/login.dart';
+import 'user/profile.dart';
 import 'review/review_index.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -11,6 +14,7 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Drawer(
       backgroundColor: const Color(0xffcfffcc),
       child: Column(
@@ -30,10 +34,17 @@ class CustomDrawer extends StatelessWidget {
             title: const Text('UserDebug'),
             onTap: () {
               // Route menu ke halaman news
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginPage()),
-              );
+              if (request.loggedIn == false) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                );
+              } else {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProfilePage()),
+                );
+              }
             },
           ),
           ListTile(

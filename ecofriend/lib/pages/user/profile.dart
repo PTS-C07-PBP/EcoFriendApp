@@ -5,31 +5,6 @@ import 'package:provider/provider.dart';
 import '../custom_drawer.dart';
 import 'register.dart';
 
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return Provider(
-        create: (_) {
-            CookieRequest request = CookieRequest();
-            return request;
-        },
-        child: MaterialApp(
-            title: 'Flutter Demo',
-            theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(
-                seedColor: const Color(0xff00fc97),
-                primary: const Color(0xff00fc97)),
-          ),
-            home: const ProfilePage(),
-      )
-    );
-  }
-}
-
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
   final String title = 'EcoUser Profile';
@@ -41,10 +16,6 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final _loginFormKey = GlobalKey<FormState>();
 
-  String statusMessage = "";
-  String _username = "";
-  String _password = "";
-
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
@@ -52,7 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: const Color(0xffcfffcc),
       appBar: AppBar(
-        title: const Text('EcoUser Login',
+        title: const Text('EcoUser Profile',
           style: TextStyle(
                 color: Colors.black, fontFamily: 'Lobster', fontSize: 23),
         ),
@@ -65,13 +36,6 @@ class _ProfilePageState extends State<ProfilePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // TODO: tambahin logo
-            // Container(
-            //   padding: const EdgeInsets.all(20, 20, 20, 70),
-            //   child: FlutterLogo(
-            //     size: 40,
-            //   ),
-            // ),
             Container(
               padding: const EdgeInsets.all(20),
               child: TextFormField(
@@ -81,11 +45,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   labelText: 'Username',
                 ),
-                onChanged: (String? value) {
-                    setState((){
-                        _username = value!;
-                    });
-                },
                 validator: (String? value) {
                     if (value == null || value.isEmpty) {
                         return 'Username is required!';
@@ -95,100 +54,18 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             Container(
+              height: 80,
               padding: const EdgeInsets.all(20),
-              child: TextFormField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(90.0),
-                  ),
-                  labelText: 'Password',
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(50),
                 ),
-
-                onChanged: (String? value) {
-                    setState((){
-                        _password = value!;
-                    });
-                },
-                validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                        return 'Password is required!';
-                    }
-                    return null;
-                },
-              ),
+                child: const Text('Log In'),
+                onPressed: () {
+                  
+                }
+              ) 
             ),
-            Container(
-                height: 80,
-                padding: const EdgeInsets.all(20),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(50),
-                  ),
-                  child: const Text('Log In'),
-                  onPressed: () async {
-                    if (_loginFormKey.currentState!.validate()) {
-                      final response = await request.login("https://ecofriend.up.railway.app/authentication/login/", {
-                                                    'username': _username,
-                                                    'password': _password,
-                      }).then((value) {
-                        final newValue = new Map<String, dynamic>.from(value);
-                        print(newValue['message']);
-
-                        setState(() {
-                          if (newValue['message'].toString() ==
-                              "Failed to Login, check your email/password.") {
-                            statusMessage = "Invalid username/password!";
-                          } else {
-                            statusMessage = newValue['message'].toString();
-                          }
-                        });
-                      });
-                      if (request.loggedIn) {
-                        // Code here will run if the login succeeded.
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Login success!"),
-                        ));
-                          Navigator.pushNamed(context, '/');
-                      }
-                      // else {
-                      //   // Code here will run if the login failed (wrong username/password).
-                      //   showDialog(context: context, 
-                      //   builder: (context) {
-                      //     return Dialog (
-                      //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                      //       elevation: 10,
-                      //       child: Container(
-                      //         child: ListView(
-                      //           padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                      //           shrinkWrap: true,
-                      //           children: <Widget>[
-                      //             const Center(
-                      //                 child: Text(
-                      //                     'Username or Password is wrong',
-                      //                     style: TextStyle(
-                      //                         fontSize: 24,
-                      //                         fontWeight: FontWeight.bold
-                      //                     ),
-                      //                 )
-                      //             ),
-                      //             const SizedBox(height: 20),
-                      //             TextButton(
-                      //                 onPressed: () {
-                      //                     Navigator.pop(context);
-                      //                 },
-                      //                 child: const Text('Try again'),
-                      //             )
-                      //           ]
-                      //         )
-                      //       )
-                      //       );
-                      //   });
-                      // }
-                    }
-                  }
-                )),
-            Text(statusMessage),
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(

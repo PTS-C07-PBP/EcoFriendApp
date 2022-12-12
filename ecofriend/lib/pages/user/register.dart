@@ -5,34 +5,6 @@ import 'dart:convert';
 
 import '../custom_drawer.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-// rgb(0, 252, 151) rgb(207, 255, 204)
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Provider(
-        create: (_) {
-            CookieRequest request = CookieRequest();
-            return request;
-        },
-        child: MaterialApp(
-        title: 'Register',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: const Color(0xff00fc97),
-              primary: const Color(0xff00fc97)),
-        ),
-        home: const RegisterPage(),
-      )
-    );
-  }
-}
-
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
   final String title = 'Register EcoUser';
