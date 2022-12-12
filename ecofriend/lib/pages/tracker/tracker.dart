@@ -4,7 +4,6 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import '../custom_drawer.dart';
 import '../user/login.dart';
-
 import 'add_footprint.dart';
 
 class TrackerPage extends StatefulWidget {

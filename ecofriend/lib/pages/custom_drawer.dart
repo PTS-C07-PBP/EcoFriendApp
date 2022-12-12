@@ -1,8 +1,10 @@
 import 'package:ecofriend/pages/tracker/tracker.dart';
 import 'package:flutter/material.dart';
 import 'package:ecofriend/main.dart';
+import 'leaderboard/ranking.dart';
 import 'user/login.dart';
 import 'review/review_index.dart';
+
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -48,6 +50,10 @@ class CustomDrawer extends StatelessWidget {
           ListTile(
             title: const Text('Ranking'),
             onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LeaderboardPage()),
+              );
               // Navigator.pushReplacement(
               //   context,
               //   MaterialPageRoute(
