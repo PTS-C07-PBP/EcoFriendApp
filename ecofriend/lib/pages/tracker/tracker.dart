@@ -2,12 +2,13 @@ import 'package:ecofriend/models/footprint.dart';
 import 'package:flutter/material.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-import '../custom_drawer.dart';
 
+import '../custom_drawer.dart';
 import 'add_footprint.dart';
 
 class TrackerPage extends StatefulWidget {
   const TrackerPage({super.key});
+
   final String title = 'Carbon Footprint Tracker';
 
   @override
