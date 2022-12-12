@@ -31,7 +31,7 @@ class CustomDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            title: const Text('UserDebug'),
+            title: const Text('EcoUser'),
             onTap: () {
               // Route menu ke halaman news
               if (request.loggedIn == false) {

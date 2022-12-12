@@ -3,7 +3,6 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
 import '../custom_drawer.dart';
-import 'register.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -15,11 +14,17 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final _loginFormKey = GlobalKey<FormState>();
+  String username = "";
+  String firstName = "";
+  String lastName = "";
+  String email = "";
+  String statusMessage = "";
 
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
 
+    fetchData(request);
     return Scaffold(
       backgroundColor: const Color(0xffcfffcc),
       appBar: AppBar(
@@ -30,67 +35,87 @@ class _ProfilePageState extends State<ProfilePage> {
         iconTheme: const IconThemeData(color: Colors.black),
       ),
       drawer: const CustomDrawer(),
-      body: Form(
-        key: _loginFormKey,
+      body: Container(
+        margin: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.all(20),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(90.0),
-                  ),
-                  labelText: 'Username',
+          children: [
+            Text("Username : ", style: TextStyle(fontSize: 20, color: Colors.black, fontFamily: 'Lobster')),
+            Text(
+                "$username",
+                style: TextStyle(
+                  fontSize: 15,
                 ),
-                validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                        return 'Username is required!';
-                    }
-                    return null;
-                },
+              ),
+            SizedBox(height: 10),
+            Text("First Name : ", style: TextStyle(fontSize: 20, color: Colors.black, fontFamily: 'Lobster')),
+            Text(
+              "$firstName",
+              style: TextStyle(
+                fontSize: 15,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text("Last Name : ", style: TextStyle(fontSize: 20, color: Colors.black, fontFamily: 'Lobster')),
+            Text(
+              "$lastName",
+              style: TextStyle(
+                fontSize: 15,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text("Email : ", style: TextStyle(fontSize: 20, color: Colors.black, fontFamily: 'Lobster')),
+            Text(
+              "$email",
+              style: TextStyle(
+                fontSize: 15,
               ),
             ),
             Container(
               height: 80,
               padding: const EdgeInsets.all(20),
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(50),
-                ),
-                child: const Text('Log In'),
-                onPressed: () {
-                  
-                }
-              ) 
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const RegisterPage()),
-                );
-              },
-              child: const Text(
-                'Not an EcoUser yet? Register Now!',
-                style: TextStyle(color: Color(0xff757575)),
-              ),
-            ),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(50),
+                  ),
+                  child: const Text('Log Out'),
+                  onPressed: () async {
+                    final response = await request.logout(
+                        "https://ecofriend.up.railway.app/authentication/logout/",);
+
+                      if (!response["status"]) {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text("Logged out. See you again!"),
+                        ));
+                        Navigator.pushNamed(context, '/');
+                      } else {
+                        setState(() {
+                          statusMessage = "Something went wrong, try again.";
+                        });
+                      }
+                    }
+                  )),
+            Text(statusMessage),
           ],
         ),
       )
     );
   }
 
-  // void postArticle(CookieRequest request) async {
-  //   //TODO: Tunggu authenticate
-  //   var url = Uri.parse('https://ecofriend.up.railway.app/news/add/');
+  Future<void> fetchData(CookieRequest request) async {
+    var res = await request.get(
+      'https://ecofriend.up.railway.app/authentication/profile',
+    );
 
-  //   var response = await request.post(
-  //       'https://ecofriend.up.railway.app/news/add/',
-  //       jsonEncode({'title': _title, 'region': _region, 'description': _description}));
-  // }
+    // melakukan konversi data json menjadi object Footprint
+    setState(() {
+      username = res['data']['username'];
+      firstName = res['data']['first_name'];
+      lastName = res['data']['last_name'];
+      email = res['data']['email'];
+    });
+    return;
+  }
 }
