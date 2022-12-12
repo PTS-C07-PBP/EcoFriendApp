@@ -1,11 +1,12 @@
-import 'package:ecofriend/pages/tracker/tracker.dart';
 import 'package:flutter/material.dart';
 import 'package:ecofriend/main.dart';
+import 'caloriesburned/caloriesburned.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'user/login.dart';
 import 'user/profile.dart';
 import 'review/review_index.dart';
+import 'tracker/tracker.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -15,7 +16,8 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
-    return Drawer(
+    return SafeArea(
+        child: Drawer(
       backgroundColor: const Color(0xffcfffcc),
       child: Column(
         children: [
@@ -68,12 +70,13 @@ class CustomDrawer extends StatelessWidget {
           ),
           ListTile(
             title: const Text('Calories Burned'),
+            // Route menu ke halaman calories burned 
             onTap: () {
-              // Navigator.pushReplacement(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => const CaloriesBurnedPage()),
-              // );
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const CaloriesBurnedPage()),
+              );
             },
           ),
           ListTile(
@@ -87,6 +90,6 @@ class CustomDrawer extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 }
