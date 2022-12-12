@@ -169,7 +169,7 @@ class _AddFootprintPageState extends State<AddFootprintPage> {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text("Footprint added!"),
                     ));
-                    Navigator.pushReplacement(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const TrackerPage()),
