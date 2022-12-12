@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ecofriend/main.dart';
+import 'caloriesburned/caloriesburned.dart';
 import 'user/login.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -56,12 +57,13 @@ class CustomDrawer extends StatelessWidget {
           ),
           ListTile(
             title: const Text('Calories Burned'),
+            // Route menu ke halaman calories burned 
             onTap: () {
-              // Navigator.pushReplacement(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => const CaloriesBurnedPage()),
-              // );
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const CaloriesBurnedPage()),
+              );
             },
           ),
                     ListTile(
