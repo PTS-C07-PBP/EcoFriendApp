@@ -247,11 +247,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               "User successfully registered") {
                             statusMessage = "User successfully registered!";
                             Navigator.pushNamed(context, '/');
-                          } else if (newValue['status'].toString() == 
-                              "duplicate") {
+                          } else if (newValue['status'].toString() == "duplicate") {
                             statusMessage = "Duplicate Username!";
-                          } else if (newValue['status'].toString() == 
-                              "pass failed") {
+                          } else if (newValue['status'].toString() == "pass failed") {
                             statusMessage = "Password not matched!";
                           } else {
                             statusMessage = newValue['message'].toString();
@@ -259,11 +257,16 @@ class _RegisterPageState extends State<RegisterPage> {
                         });
                       });
                       if (response['status'] == 'success') {
-                        // Code here will run if the login succeeded.
                         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text("Registration success!"),
                         ));
-                          Navigator.pushNamed(context, '/login');
+                          Navigator.pushNamed(context, '/');
+                      } else if (response['status'] == 'failed') {
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("Login failed, try again"),
+                        ));
+                      } else {
+
                       }
 
                       
